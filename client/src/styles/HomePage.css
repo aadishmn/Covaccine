@@ -1,0 +1,12 @@
+table,
+tr,
+td {
+  border: solid;
+}
+table {
+  margin: 20px;
+}
+
+tr {
+  padding: 20px;
+}
