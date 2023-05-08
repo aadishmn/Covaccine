@@ -1,19 +1,13 @@
 import React from "react";
-// import "../styles/RegiserStyles.css";
 import { Form, Input, message } from "antd";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
-// import { showLoading, hideLoading } from "../redux/features/alertSlice";
+
 const Register = () => {
   const navigate = useNavigate();
-  //   const dispatch = useDispatch();
-  //   form handler
+
   const onfinishHandler = async (values) => {
     try {
-      //   dispatch(showLoading());
-      // const url = "http://localhost:8080/";
-
       const res = await axios.post(
         "http://localhost:8080/api/v1/user/register",
         values

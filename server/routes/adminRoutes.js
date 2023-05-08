@@ -6,6 +6,7 @@ const {
   putCenter,
   deleteCenter,
 } = require("../controllers/adminCtrl");
+
 const router = express.Router();
 
 router.post("/addCenter", addCenter);

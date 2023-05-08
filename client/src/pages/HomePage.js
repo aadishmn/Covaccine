@@ -3,6 +3,7 @@ import axios from "axios";
 import "../styles/HomePage.css";
 import { useState, useEffect } from "react";
 import { DatePicker, message, TimePicker } from "antd";
+import moment from "moment";
 function HomePage() {
   const [newcenters, setnewCenters] = useState([]);
   const [centers, setCenters] = useState([]);
@@ -10,12 +11,15 @@ function HomePage() {
   const [searchVal, setSearchVal] = useState("");
   const [CenterSearchVal, setCenterSearchVal] = useState("");
   const [date, setDate] = useState("");
-  const [time, setTime] = useState();
+  const [time, setTime] = useState("");
+  const [isAppoint, setAppoint] = useState(false);
+  const [isAppointTime, setTimeAppoint] = useState("");
+  const [phNo, setPhNo] = useState("");
 
   useEffect(() => {
     getCenters();
     // console.log("j");
-  }, [center]);
+  }, [center, time, isAppointTime, date]);
   const getCenters = async () => {
     try {
       const headers = {
@@ -53,6 +57,29 @@ function HomePage() {
     setnewCenters(filterVal);
   };
 
+  const handleAppointment = async (phoneNo) => {
+    setAppoint(true);
+    setPhNo(phoneNo);
+  };
+  const setAppointment = async (phNo, isAppointTime, date) => {
+    console.log(phNo);
+
+    console.log(date);
+    console.log(isAppointTime);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/v1/user/appointments",
+        { phoneNo: phNo, isAppointTime: isAppointTime, date: date }
+      );
+      if (res.data.success) {
+        console.log("Success");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <input
@@ -70,25 +97,7 @@ function HomePage() {
         onChange={(e) => setCenterSearchVal(e.target.value)}
       />
 
-      <DatePicker
-        aria-required={"true"}
-        className="m-2"
-        format="DD-MM-YYYY"
-        onChange={(value) => {
-          setDate(value.format("DD-MM-YYYY"));
-        }}
-      />
       <TimePicker
-        aria-required={"true"}
-        format="HH:mm"
-        className="mt-3"
-        onChange={(value) => {
-          setTime(value.format("HH:mm"));
-        }}
-      />
-
-      <TimePicker
-        aria-required={"true"}
         format="HH:mm"
         className="mt-3"
         onChange={(value) => {
@@ -101,17 +110,59 @@ function HomePage() {
         <table>
           <tbody>
             {newcenters.map((center, _id) => {
-              return (
-                <tr key={_id}>
-                  <td>
-                    <h1>{center.centerName}</h1>
-                  </td>
-                  <td>
-                    <h1>{center.address}</h1>
-                  </td>
-                </tr>
-              );
+              const start = center.timing[0];
+              const end = center.timing[1];
+              if (time >= start && time <= end) {
+                return (
+                  <tr key={_id}>
+                    <td>
+                      <h1>{center.centerName}</h1>
+                    </td>
+                    <td>
+                      <h1>{center.address}</h1>
+                    </td>
+                    <td>
+                      <h1>{start}</h1>
+                    </td>
+                    <td>
+                      <h1>{end}</h1>
+                    </td>
+                    <td>
+                      <button onClick={() => handleAppointment(center.phoneNo)}>
+                        Appintment
+                      </button>{" "}
+                    </td>
+                  </tr>
+                );
+              }
             })}
+            <tr>
+              {isAppoint && (
+                <>
+                  <DatePicker
+                    aria-required={"true"}
+                    className="m-2"
+                    format="DD-MM-YYYY"
+                    onChange={(value) => {
+                      setDate(value.format("DD-MM-YYYY"));
+                      console.log(date);
+                    }}
+                  />
+                  <TimePicker
+                    format="HH:mm"
+                    className="mt-3"
+                    onChange={(value) => {
+                      setTimeAppoint(value.format("HH:mm"));
+                    }}
+                  />
+                  <button
+                    onClick={() => setAppointment(phNo, isAppointTime, date)}
+                  >
+                    Book
+                  </button>
+                </>
+              )}
+            </tr>
           </tbody>
         </table>
       </>

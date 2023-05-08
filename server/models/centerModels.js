@@ -13,7 +13,7 @@ const centerSchema = new mongoose.Schema(
 
     dose1: { type: Number, required: [true, "Dose 1 required"] },
     dose2: { type: Number, required: [true, "Dose 2 required"] },
-    phoneNo: { type: Number, required: [true, "phone num required"] },
+    phoneNo: { type: String, required: [true, "phone num required"] },
 
     timing: {
       type: Object,

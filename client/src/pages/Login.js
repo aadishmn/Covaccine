@@ -1,28 +1,30 @@
 import React from "react";
-// import "../styles/RegiserStyles.css";
 import { Form, Input, message } from "antd";
-// import { useDispatch } from "react-redux";
-// import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  //form handler
+
   const onfinishHandler = async (values) => {
     try {
-      // dispatch(showLoading());
       const res = await axios.post(
         "http://localhost:8080/api/v1/user/login",
         values
       );
-      // window.location.reload();
-      // dispatch(hideLoading());
+
       if (res.data.success) {
-        localStorage.setItem("token", res.data.token);
-        message.success("Login Successfully");
-        navigate("/");
+        if (values.email == "admin@admin.com") {
+          console.log("Admin");
+          localStorage.setItem("admin", res.data.token);
+          console.log(localStorage.getItem("admin"));
+          message.success("Login Successfully");
+          navigate("/");
+        } else {
+          localStorage.setItem("token", res.data.token);
+          message.success("Login Successfully");
+          navigate("/");
+        }
       } else {
         message.error(res.data.message);
       }

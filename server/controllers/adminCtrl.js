@@ -16,7 +16,6 @@ const addCenter = async (req, res) => {
 
 const showCenter = async (req, res) => {
   try {
-    console.log("s");
     const center = await centerModels.find({});
     res.status(200).send({
       success: true,

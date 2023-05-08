@@ -56,7 +56,6 @@ const loginController = async (req, res) => {
 
 const centerController = async (req, res) => {
   try {
-    console.log("s");
     const center = await centerModels.find({});
     res.status(200).send({
       success: true,

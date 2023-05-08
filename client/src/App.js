@@ -4,19 +4,22 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AddCenter from "./pages/AddCenter";
 import ShowCenter from "./pages/ShowCenter";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/addCenter" element={<AddCenter />} />
-          <Route path="/showCenter" element={<ShowCenter />} />
+        <Navbar>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/addCenter" element={<AddCenter />} />
+            <Route path="/showCenter" element={<ShowCenter />} />
 
-          <Route path="/" element={<HomePage />} />
-        </Routes>
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+        </Navbar>
       </BrowserRouter>
     </>
   );
