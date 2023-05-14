@@ -31,6 +31,11 @@ In cmd promptmove to the client folder and run npm start
 ```
 in cmd prmpmove to the sever folder and run npm run start
 ```
+<p>5. step 5:</p>
+
+```
+login in by entering admin@admin.com as email address and A@123 as passkey.
+```
 
   
   
